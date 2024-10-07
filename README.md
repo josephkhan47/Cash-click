@@ -3,77 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Click to Earn</title>
+    <title>Cashout Feature</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            padding: 50px;
-        }
-        #balance {
-            font-size: 2em;
-            margin-bottom: 20px;
         }
         button {
-            padding: 15px 30px;
-            font-size: 1em;
             margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .coming-soon {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Earn Money by Clicking!</h1>
-
-    <!-- Display current balance -->
-    <div id="balance">£0.00</div>
-
-    <!-- Main button for adding 50p -->
-    <button id="mainButton">Add 50p</button>
-
-    <!-- X2 button for doubling each click -->
-    <button id="doubleButton">X2</button>
-
-    <!-- X100 button for adding crazy amounts -->
-    <button id="crazyButton">X100</button>
-
-    <!-- Cashout button (this will be linked to PayPal later) -->
-    <button id="cashoutButton">Cashout</button>
+    <h1>Cashout Feature</h1>
+    <div>
+        <button id="add50">Add £0.50</button>
+        <button id="double">X2</button>
+        <button id="hundred">X100</button>
+    </div>
+    <h2>Total: £<span id="total">0.00</span></h2>
+    <hr>
+    <h2>Cashout</h2>
+    <p class="coming-soon">Cashout feature coming soon!</p>
+    <input type="email" id="paypalEmail" placeholder="Enter your PayPal Email (for testing)" required>
+    <input type="number" id="cashoutAmount" placeholder="Amount (for testing)" required>
+    <button id="cashoutButton" disabled>Cashout</button>
 
     <script>
-        let balance = 0;
-        let multiplier = 1;
+        let totalAmount = 0;
 
-        const balanceDisplay = document.getElementById('balance');
-        const mainButton = document.getElementById('mainButton');
-        const doubleButton = document.getElementById('doubleButton');
-        const crazyButton = document.getElementById('crazyButton');
-        const cashoutButton = document.getElementById('cashoutButton');
+        // Button event handlers
+        document.getElementById('add50').onclick = function() {
+            totalAmount += 0.50;
+            document.getElementById('total').innerText = totalAmount.toFixed(2);
+        };
 
-        // Function to update the displayed balance
-        function updateBalance() {
-            balanceDisplay.innerText = `£${balance.toFixed(2)}`;
-        }
+        document.getElementById('double').onclick = function() {
+            totalAmount *= 2;
+            document.getElementById('total').innerText = totalAmount.toFixed(2);
+        };
 
-        // Add 50p on each click, multiplied by the current multiplier
-        mainButton.addEventListener('click', () => {
-            balance += 0.50 * multiplier;
-            updateBalance();
-        });
+        document.getElementById('hundred').onclick = function() {
+            totalAmount += 100;
+            document.getElementById('total').innerText = totalAmount.toFixed(2);
+        };
 
-        // Double the multiplier
-        doubleButton.addEventListener('click', () => {
-            multiplier = 2;
-        });
+        // Cashout button will be disabled until feature is active
+        document.getElementById('cashoutButton').onclick = function() {
+            const email = document.getElementById('paypalEmail').value;
+            const amount = totalAmount; // Cashout the total amount
 
-        // Multiply by 100 for crazy mode
-        crazyButton.addEventListener('click', () => {
-            multiplier = 100;
-        });
+            // Show a message that the feature is coming soon
+            alert('Cashout feature is coming soon! Please check back later.');
 
-        // Cashout button (this will interact with PayPal later)
-        cashoutButton.addEventListener('click', () => {
-            alert('Cashout feature coming soon!');
-        });
-    </script>
-</body>
-</html>
+            // You can still handle cashout requests here if needed
+            // Uncomment the following code to allow cashout for testing
+            /*
+            fetch('/cashout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email, amount: amount })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Cashout failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Cashout successful! Check​⬤
